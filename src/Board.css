@@ -1,0 +1,11 @@
+
+
+.slider-board {
+    width: 100%;
+}
+
+.slider-row {
+    display: flex;
+    justify-content: center;
+}
+
