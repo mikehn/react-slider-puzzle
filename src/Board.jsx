@@ -30,15 +30,37 @@ class Board extends Component {
         return board;
     }
 
+    //note declaring class function as an arrow function gives us automatic 'this' binding.
+    move = (i, j) => {
+        let { board } = this.state;
+        let moveValue = board[i][j];
+        let emptyIndex = null;
+        let friends = [{ i: i + 1, j }, { i: i - 1, j }, { i, j: j + 1 }, { i, j: j - 1 }];
+        let isLegal = ({ i, j }) => (i < board.length && i >= 0 && j < board.length && j >= 0);
+
+        friends.forEach(box => {
+            if (isLegal(box) && (board[box.i][box.j] === 0))
+                emptyIndex = box;
+        });
+        //Create a copy of board as it is good practice to keep state immutable
+        let boardCopy = board.map(row => [...row]);
+        if (emptyIndex) {
+            boardCopy[i][j] = 0;
+            boardCopy[emptyIndex.i][emptyIndex.j] = moveValue;
+            this.setState({board:boardCopy})
+        }
+        return emptyIndex;
+    }
+
     /**
      * returns a single slider row given the row data
      * @param {Object} rowData row data
      * @param {Number} i row number
      */
-    getRow(rowData, i) {
+    getRow = (rowData, i) => {
         return (
             <div key={i} className="slider-row">
-                {rowData.map(bNum => <Box key={bNum} boxNumber={bNum} />)}
+                {rowData.map((bNum, idx) => <Box key={bNum} boxNumber={bNum} onClick={() => this.move(i,idx)} />)}
             </div>
         );
     }
