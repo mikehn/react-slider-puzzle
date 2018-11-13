@@ -2,15 +2,34 @@ import React, { Component } from 'react';
 
 class Board extends Component {
 
-    getRow(i) {
-        return <div>{i}</div>
+    constructor(props) {
+        super(props);
+        const SIZE = props.size || 3;
+        this.state = {
+            board: this.initBord(SIZE)
+        }
+    }
+
+    initBord(size) {
+        let board = [];
+        let cellNum=0;
+        for (let i = 0; i < size; i++) {
+            let row = [];
+            for (let j = 0; j < size; j++) {
+                row.push(cellNum++);
+            }
+            board.push(row);
+        }
+        return board;
+    }
+
+    getRow(rowData) {
+        return <div>{rowData}</div>
     }
 
     render() {
-        const SIZE = 3;
-        let rows = [];
-        for (let i = 0; i < SIZE; i++)
-            rows.push(this.getRow(i));
+
+        let rows = this.state.board.map(this.getRow);
 
         return (
             <div>
