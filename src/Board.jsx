@@ -9,7 +9,9 @@ class Board extends Component {
         // Note: you should avoid placing view elements in state,
         //       state elements should only be changed by state functions
         this.state = {
-            board: this.initBord(SIZE)
+            board: this.initBord(SIZE),
+            moves: 0,
+            isWin: false,
         }
     }
 
@@ -47,9 +49,25 @@ class Board extends Component {
         if (emptyIndex) {
             boardCopy[i][j] = 0;
             boardCopy[emptyIndex.i][emptyIndex.j] = moveValue;
-            this.setState({board:boardCopy})
+            let isWin = this.checkWin(boardCopy);
+            this.setState((prevState) => ({
+                board: boardCopy,
+                moves: prevState.moves + 1,
+                isWin,
+            }));
         }
         return emptyIndex;
+    }
+
+    checkWin(board) {
+        let size = board.length;
+        let boxCount = size * size - 1;
+
+        for (let i = 0; i < boxCount; ++i) {
+            if (board[Math.floor(i / size)][i % size] != (i + 1))
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -60,7 +78,7 @@ class Board extends Component {
     getRow = (rowData, i) => {
         return (
             <div key={i} className="slider-row">
-                {rowData.map((bNum, idx) => <Box key={bNum} boxNumber={bNum} onClick={() => this.move(i,idx)} />)}
+                {rowData.map((bNum, idx) => <Box key={bNum} boxNumber={bNum} onClick={() => this.move(i, idx)} />)}
             </div>
         );
     }
@@ -70,6 +88,9 @@ class Board extends Component {
         return (
             <div className="slider-board">
                 {rows}
+                <span className="slider-msg">
+                    {this.state.isWin ? "Winner !!!" : `Total Moves: ${this.state.moves}`}
+                </span>
             </div>
         );
     }
