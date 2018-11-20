@@ -24,7 +24,7 @@ class Board extends Component {
     }
 
     getRow(rowData) {
-        return <div>{rowData}</div>
+        return <div key={rowData}>{rowData}</div>
     }
 
     render() {
