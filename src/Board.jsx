@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Board extends Component {
 
     getRow(i) {
-        return <div>{i}</div>
+        return <div key={i}>{i}</div>
     }
 
     render() {
