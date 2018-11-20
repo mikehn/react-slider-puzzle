@@ -24,7 +24,7 @@ export default class BoardLogic {
     }
 
     /**
-     * Getter, eturn a copy of the game board 
+     * Getter, return a copy of the game board 
      */
     get board() {
         return this._board.map(row => [...row]);
