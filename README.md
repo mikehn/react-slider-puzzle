@@ -1,7 +1,7 @@
 # React Slider puzzle
 React slider puzzle, Developed for use in Workshops/Training for React basics  
 
-![alt text](public/SliderImage.jpg)
+![alt text](https://raw.githubusercontent.com/mikehn/react-slider-puzzle/master/public/SliderImage.JPG)
 
 ## How to use
 
