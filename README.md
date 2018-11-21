@@ -24,7 +24,8 @@ To only run and play game you can run
 npm start
 ```
 ### Usage as a work shop
-The code is split into 6 incramental steps, each with its own branch:
+The code is split into 6 incramental steps (not including starting point), each with its own branch:
+* ws-start  : starting point (can also use wp-start-template)
 * ws-step-1 : creating the Board with 3 rows
 * ws-step-2 : Add state to the board
 * ws-step-3 : Add Box component (puzzle tile)
