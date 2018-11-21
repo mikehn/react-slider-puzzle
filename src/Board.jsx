@@ -3,18 +3,19 @@ import React, { Component } from 'react';
 class Board extends Component {
 
     getRow(i) {
-        return <div>{i}</div>
+        return null// implement row here
     }
 
     render() {
-        const SIZE = 3;
-        let rows = [];
-        for (let i = 0; i < SIZE; i++)
-            rows.push(this.getRow(i));
-
+        const SIZE = 3; 
+    
         return (
             <div>
-                {rows}
+                replace below div's with auto generated divs 
+                <div>0</div>
+                <div>1</div>
+                <div>2</div>
+                hint: you can render an array that contains those elements
             </div>
         );
     }
