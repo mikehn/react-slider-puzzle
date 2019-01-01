@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Box.css";
+
 
 // Stateless react component
 // Note: the {boxNumber} is ES6 feature called Destructuring Assignment
