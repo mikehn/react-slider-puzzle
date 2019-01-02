@@ -7,8 +7,6 @@ class Board extends Component {
         super(props);
         const SIZE = props.size || 3;
         this.boardLogic = new BoardLogic(SIZE);
-        // Note: you should avoid placing view elements in state,
-        //       state elements should only be changed by state functions
         this.state = {
             board: this.boardLogic.scramble(),
             moves: 0,
@@ -18,12 +16,12 @@ class Board extends Component {
 
     //note declaring class function as an arrow function gives us automatic 'this' binding.
     move = (i, j) => {
-        if (this.boardLogic.checkWin())
+        if (this.state.isWin)
             return;
-        let emptyIndex = this.boardLogic.move(i, j);
-        if (emptyIndex) {
+
+        if (this.boardLogic.move(i, j)) {
             this.setState((prevState) => ({
-                board: this.boardLogic.board,
+                board: this.boardLogic.matrix,
                 moves: prevState.moves + 1,
                 isWin: this.boardLogic.checkWin(),
             }));
@@ -35,10 +33,10 @@ class Board extends Component {
      * @param {Object} rowData row data
      * @param {Number} i row number
      */
-    getRow = (rowData, i) => {
+    getRow = (rowData, j) => {
         return (
-            <div key={i} className="slider-row">
-                {rowData.map((bNum, idx) => <Box key={bNum} boxNumber={bNum} onClick={() => this.move(i, idx)} />)}
+            <div key={j} >
+                {rowData.map((bNum, i) => <Box key={bNum} boxNumber={bNum} onClick={() => this.move(i, j)} />)}
             </div>
         );
     }

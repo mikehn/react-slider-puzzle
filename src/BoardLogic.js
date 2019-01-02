@@ -1,86 +1,102 @@
-export default class BoardLogic {
+const EMPTY = 0; 
+Array.prototype.swap = function(i,j){// eslint-disable-line no-extend-native
+  [this[i],this[j]] = [this[j],this[i]];
+  return this;
+}
 
-    constructor(size) {
-        // we place _ to mark it as private (only visual mark no enforcment)
-        // ES7 has now support for private members.
-        this._board = this.initBord(size);
+export default class BoardLogic{
+    /**
+     * Constructor
+     * @param {*} data can be one of three:
+     * size (number): init matrix with size number*number 
+     * matrix: if array use given array as matrix
+     * other: use default size
+     */
+    constructor(data){
+        const DEFAULT_SIZE=3;
+        if(Array.isArray(data)){ // Data is Array
+          this.size=Math.ceil(Math.sqrt(data.length));
+          this.board = data;
+        }else{ // Data is number or undefiend
+          this.size=isNaN(data)?DEFAULT_SIZE:data;
+          this.board= this.initBord(data);
+        }
     }
-
+    
     /**
     * Gets a new board of the given size
     * @param {Number} size amount of Boxes per row
     */
-    initBord(size) {
-        let board = [];
-        let cellNum = 0;
-        for (let i = 0; i < size; i++) {
-            let row = [];
-            for (let j = 0; j < size; j++) {
-                row.push(cellNum++);
-            }
-            board.push(row);
-        }
-        return board;
+    initBord(size){
+     return Array.from({length:size*size},(_,b)=>b);
     }
-
+    
     /**
      * Getter, return a copy of the game board 
      */
-    get board() {
-        return this._board.map(row => [...row]);
+    get matrix() {
+      return this.board.reduce(
+        (rows, key, index) => (index % this.size === 0 ? 
+        rows.push([key]) : rows[rows.length-1].push(key)) && rows, []);
     }
-
+     
     /**
      * moves the tile at the given (i,j) cordinates 
      * to the current empty space (only if legal)
      * @param {*} i row index
      * @param {*} j column index
      */
-    move(i, j) {
-        let moveValue = this._board[i][j];
-        let emptyIndex = null;
-        let friends = [{ i: i + 1, j }, { i: i - 1, j }, { i, j: j + 1 }, { i, j: j - 1 }];
-        let isLegal = ({ i, j }) => (i < this._board.length && i >= 0 && j < this._board.length && j >= 0);
-
-        friends.forEach(box => {
-            if (isLegal(box) && (this._board[box.i][box.j] === 0))
-                emptyIndex = box;
-        });
-
-        if (emptyIndex) {
-            this._board[i][j] = 0;
-            this._board[emptyIndex.i][emptyIndex.j] = moveValue;
-        }
-        return emptyIndex;
+    move(i,j){
+      let legalFriends = this.getLegalFriends(i,j);
+      let b2c = ({i,j}) => this.size*j+i;
+      let empty = null;
+      if(legalFriends.some(box=>(this.board[b2c(empty=box)] === EMPTY))){
+         this.board.swap(b2c(empty),b2c({i,j}));
+         return true;
+      }
+      return false;
     }
 
-    /**
+     /**
      * Checks if board is in win configuration.
      */
-    checkWin() {
-        let size = this._board.length;
-        let boxCount = size * size - 1;
+    checkWin(){
+      let last = this.board.length-1;
+      return !!this.board.reduce((res,cur,i)=>res && (cur===(i+1) || i===last));
+    }
+    
+     /**
+     * Scrambles the board randomly in a solvable way.
+     */
+    scramble(){
+       const SCRAMBLE_FACTOR = this.board.length*10;
+       let rand = (min, max) => Math.floor(Math.random() * (max - min) + min);
+       let emptyIdx = this.board.indexOf(EMPTY);
+       let [i,j] = [emptyIdx%this.size,Math.floor(emptyIdx/this.size)];
+       let b2c = ({i,j}) => this.size*j+i;
 
-        for (let i = 0; i < boxCount; ++i) {
-            if (this._board[Math.floor(i / size)][i % size] !== (i + 1))
-                return false;
-        }
-        return true;
+       for(let ind=0;ind<SCRAMBLE_FACTOR;++ind){
+         let legalFriends = this.getLegalFriends(i,j);
+         let friend = legalFriends[rand(0,legalFriends.length)];
+         this.board.swap(b2c(friend),b2c({i,j}));
+         ({i,j} = friend);
+       }
+       return this.matrix;
     }
 
     /**
-     * Scrambles the board randomly in a solvable way.
+     * Gets all existing tiles around a given tile (i,j)
+     * @param {Number} i 
+     * @param {Number} j 
      */
-    scramble() {
-        const SIZE = this._board.length;
-        const ITTER = 10 * SIZE * SIZE;
-        let rand = (min, max) => Math.floor(Math.random() * (max - min) + min);
-
-        for (let i = 0; i < ITTER; i++) {
-            let row = rand(0, SIZE);
-            let col = rand(0, SIZE);
-            this.move(row, col);
-        }
-        return this.board;
+    getLegalFriends(i,j){
+      let friends = [{ i: i + 1, j }, { i: i - 1, j }, 
+                     { i, j: j + 1 }, { i, j: j - 1 }];
+      // ES6 feature :  Arrow functions + Destructing assignment
+      let isLegal = ({ i, j }) => (i < this.size && i >= 0 && 
+                                   j < this.size && j >= 0);
+      return friends.filter(isLegal);
     }
+
 }
+  
