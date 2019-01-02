@@ -6,9 +6,9 @@ class Board extends Component {
     constructor(props) {
         super(props);
         const SIZE = props.size || 3;
-        this.boardLogic = new BoardLogic(SIZE);
+        this.boardLogic = new BoardLogic(this.props.data || SIZE);
         this.state = {
-            board: this.boardLogic.scramble(),
+            board: this.props.data ?this.boardLogic.matrix:this.boardLogic.scramble(),
             moves: 0,
             isWin: false,
         }
@@ -41,6 +41,14 @@ class Board extends Component {
         );
     }
 
+    handleClick = () => {
+        this.setState({
+             board: this.boardLogic.scramble(),
+             isWin: this.boardLogic.checkWin(),
+             moves: 0             
+            });
+    }
+
     render() {
         let rows = this.state.board.map(this.getRow);
         let message = (this.state.isWin ? "Winner !!! " : "Total ") + `Moves: ${this.state.moves}`;
@@ -51,7 +59,7 @@ class Board extends Component {
                     {message}
                 </span>
                 <div className="btn-new-game">
-                    <button onClick={() => this.setState({ board: this.boardLogic.scramble() })}>New Game</button>
+                    <button onClick={this.handleClick}>New Game</button>
                 </div>
             </div>
         );
