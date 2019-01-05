@@ -1,7 +1,15 @@
 {
-  "name": "slider",
+  "name": "react-slider-game",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Michael Hasin",
+    "email": "mike.hsn@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikehn/react-slider-puzzle.git"
+  },
   "dependencies": {
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
