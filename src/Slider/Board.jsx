@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Box from "./Box";
 import BoardLogic from "./BoardLogic";
+import "./App.css";
 class Board extends Component {
 
     constructor(props) {

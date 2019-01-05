@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
-import Board from "./Board";
-
+//import Board from "./Slider/Board";
+import Slider from "./Slider";
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
           Slider Puzzle
-          <Board/>
+          <Slider size={2}/>
         </header>
       </div>
     );
