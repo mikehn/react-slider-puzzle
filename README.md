@@ -5,9 +5,25 @@ React slider puzzle, Developed for use in Workshops/Training for React basics
 
 ## How to use
 
+### Component usage
+install component
 
+```
+npm install react-slider-game --save
+```
+init with size usage exmple:
 
-### Bring up
+```jsx
+<Slider size={4}/>
+```
+init with data usage example:
+
+```jsx
+<Slider data={[0,1,2,3]}/>
+```
+
+### Usage as a work shop
+#### Bring up
 clone the repo
 ```
 git clone https://github.com/mikehn/react-slider-puzzle.git
@@ -23,7 +39,7 @@ To only run and play game you can run
 ```
 npm start
 ```
-### Usage as a work shop
+#### workshop sections
 The code is split into 6 incramental steps (not including starting point), each with its own branch:
 * ws-start  : starting point (can also use wp-start-template)
 * ws-step-1 : creating the Board with 3 rows
@@ -50,7 +66,7 @@ no images or canvas were used in project, its only jsx + css
 ## Authors
 
 * **Michael Hasin** - *developer @intel*  
-* **Ron Yehudai** - *developer @intel*  
+
 
 ## License
 GNU General Public License v3.0
