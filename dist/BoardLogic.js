@@ -20,8 +20,7 @@ export default class BoardLogic {
     if (Array.isArray(data)) {
       // Data is Array
       this.size = Math.ceil(Math.sqrt(data.length));
-      console.log(data, "S:", this.size);
-      this.board = data;
+      this.board = [...data];
     } else {
       // Data is number or undefiend
       this.size = isNaN(data) ? DEFAULT_SIZE : data;

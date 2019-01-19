@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Box from "./Box";
 import BoardLogic from "./BoardLogic";
-import "./App.css";
 class Board extends Component {
+    static defaultProps = {
+        size: 3,
+        onMove: (i, j) => { }
+    }
 
     constructor(props) {
         super(props);
-        const SIZE = props.size || 3;
-        this.boardLogic = new BoardLogic(this.props.data || SIZE);
-        this.state = {
-            board: this.props.data ?this.boardLogic.matrix:this.boardLogic.scramble(),
-            moves: 0,
-            isWin: false,
-        }
+        this.state = this.initialGameState();
     }
+
+    initialGameState = () => {
+        this.boardLogic = new BoardLogic(this.props.data || this.props.size);
+        return {
+            board: this.props.data ? this.boardLogic.matrix : this.boardLogic.scramble(),
+            moves: 0,
+            isWin: this.boardLogic.checkWin()
+        }
+    };
 
     //note declaring class function as an arrow function gives us automatic 'this' binding.
     move = (i, j) => {
@@ -21,6 +28,7 @@ class Board extends Component {
             return;
 
         if (this.boardLogic.move(i, j)) {
+            this.props.onMove(i, j);
             this.setState((prevState) => ({
                 board: this.boardLogic.matrix,
                 moves: prevState.moves + 1,
@@ -42,12 +50,8 @@ class Board extends Component {
         );
     }
 
-    handleClick = () => {
-        this.setState({
-             board: this.boardLogic.scramble(),
-             isWin: this.boardLogic.checkWin(),
-             moves: 0             
-            });
+    newGame = () => {
+        this.setState(this.initialGameState());
     }
 
     render() {
@@ -60,11 +64,17 @@ class Board extends Component {
                     {message}
                 </span>
                 <div className="btn-new-game">
-                    <button onClick={this.handleClick}>New Game</button>
+                    <button onClick={this.newGame}>New Game</button>
                 </div>
             </div>
         );
     }
 }
+
+Board.propTypes = {
+    data: PropTypes.array,
+    size: PropTypes.number,
+    onMove: PropTypes.func
+};
 
 export default Board;
