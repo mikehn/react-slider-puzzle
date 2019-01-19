@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Box from "./Box";
 import BoardLogic from "./BoardLogic";
+import "./App.css";
 class Board extends Component {
     static defaultProps = {
         size: 3,
