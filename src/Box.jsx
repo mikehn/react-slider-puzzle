@@ -10,6 +10,6 @@ export default function Box({boxNumber,onClick}){
 }
 
 Box.propTypes = {
-    onClick: PropTypes.func,
+    onClick: PropTypes.func.isRequired,
     boxNumber: PropTypes.number.isRequired
 };
