@@ -5,7 +5,7 @@
     "name": "Michael Hasin",
     "email": "mike.hsn@gmail.com"
   },
-  "version": "0.2.2",
+  "version": "0.2.8",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "babel": {

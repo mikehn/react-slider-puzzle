@@ -34,6 +34,10 @@ export default class BoardLogic {
 
 
   initBord(size) {
+    if (size == 2) {
+      return [0, 1, 3, 2];
+    }
+
     return Array.from({
       length: size * size
     }, (_, b) => b);
