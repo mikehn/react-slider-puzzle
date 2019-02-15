@@ -1,9 +1,12 @@
 import React from 'react'
-import Slider from './Board';
+import Board from './Board';
 const SliderComponent = (props) => {
-
   return (
-    <Slider {...props}/>
+    <div className={"App "+props.className}>
+      <header className="App-header">
+        <Board {...props} />
+      </header>
+    </div>
   )
 }
 export default SliderComponent

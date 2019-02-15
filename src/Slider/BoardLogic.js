@@ -28,6 +28,10 @@ export default class BoardLogic{
     * @param {Number} size amount of Boxes per row
     */
     initBord(size){
+     if(size==2){
+       return [0,1,3,2];
+     }
+
      return Array.from({length:size*size},(_,b)=>b);
     }
     
